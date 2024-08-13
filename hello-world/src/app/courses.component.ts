@@ -10,6 +10,6 @@ import { Component } from "@angular/core";
   template: '<h2>Courses</h2>'
 
 })
-export class CoursesComponent {
+export class CoursesComponent2 {
 
 }

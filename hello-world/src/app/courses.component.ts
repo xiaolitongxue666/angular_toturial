@@ -1,6 +1,8 @@
 // Import decorator
 import { Component } from "@angular/core";
 import {NgForOf} from "@angular/common";
+import {CoursesService} from "./courses.service";
+
 
 // Apply decorator to the class
 // Call decorator like a function (decorator function)
@@ -12,7 +14,7 @@ import {NgForOf} from "@angular/common";
     NgForOf
   ],
   template: `
-    <h2>{{ "Title:" + title + " | " + getTitle() }}</h2>
+    <h2>{{ "Title:" + title }}</h2>
     <ul>
       <li *ngFor="let course of courses">
         {{ course }}
@@ -24,10 +26,10 @@ import {NgForOf} from "@angular/common";
 export class CoursesComponent2 {
   title = "List of courses";
 
-  getTitle() {
-    return this.title;
-  }
+  courses: string[];
 
-  courses = ["course1", "course2", "course3"]
+  constructor(private coursesService: CoursesService) {
+    this.courses = this.coursesService.getCourses();
+  }
 
 }

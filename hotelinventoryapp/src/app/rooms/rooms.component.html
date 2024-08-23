@@ -1,4 +1,4 @@
-<p> Welcome to {{hotelName}} </p>
+<p> Welcome to {{ hotelName }} </p>
 
 <div style="width: 500px; height: 300px;">
   <img [ngSrc]="imageUrl" alt="Picture" width="500" height="300">
@@ -11,3 +11,32 @@ Number of Rooms:
 <!--document.getElementById("numberOfRooms").innerText = numberOfRooms;-->
 
 <button (click)="toggle()">Toggle</button>
+
+{{ rooms?.availableRooms ?? 'No rooms' }}
+
+<div *ngIf="rooms.availableRooms > 0">
+  Room List
+  <table>
+    <thead>
+      <tr>
+        <th>rootType</th>
+        <th>amenities</th>
+        <th>price</th>
+        <th>photos</th>
+        <th>checkinTime</th>
+        <th>checkoutTime</th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let room of roomList">
+      <td>{{ room.rootType }}</td>
+      <td>{{ room.amenities }}</td>
+      <td>{{ room.price }}</td>
+      <td><img [ngSrc]="room.photos" alt="房间图片" width="250" height="150"></td>  <!-- 显示图片 -->
+      <td>{{ room.checkinTime | date: 'yyyy-MM-dd' }}</td>  <!-- 格式化日期 -->
+      <td>{{ room.checkoutTime | date: 'yyyy-MM-dd' }}</td> <!-- 格式化日期 -->
+    </tr>
+    </tbody>
+  </table>
+
+</div>

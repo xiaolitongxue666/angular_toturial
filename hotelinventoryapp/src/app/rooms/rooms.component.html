@@ -1,5 +1,13 @@
 <p> Welcome to {{hotelName}} </p>
+
 <div style="width: 500px; height: 300px;">
   <img [ngSrc]="imageUrl" alt="Picture" width="500" height="300">
 </div>
-<button [disabled]="isLoading">加载中</button>
+
+<button [disabled]="isLoading">Loadings...</button>
+
+Number of Rooms:
+<div [innerText]="numberOfRooms"></div>
+<!--document.getElementById("numberOfRooms").innerText = numberOfRooms;-->
+
+<button (click)="toggle()">Toggle</button>

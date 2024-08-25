@@ -1,2 +1,8 @@
 <h1> Hotel Inventory App </h1>
-<hinv-rooms></hinv-rooms>
+
+<div [ngSwitch]="loginTypes">
+  <div *ngSwitchCase="'Admin'">
+    <hinv-rooms></hinv-rooms>
+  </div>
+
+</div>

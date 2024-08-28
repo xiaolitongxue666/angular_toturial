@@ -1,0 +1,27 @@
+Room List
+<table>
+  <thead>
+  <tr>
+    <th>Index</th>
+    <th>Even/Odd</th>
+    <th>rootType</th>
+    <th>amenities</th>
+    <th>price</th>
+    <th>photos</th>
+    <th>checkinTime</th>
+    <th>checkoutTime</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let room of roomList let e = even; let o = odd; let i = index;">
+    <td>{{ i }}</td>
+    <td>{{ e ? "Even" : "Odd" }}</td>
+    <td>{{ room.rootType }}</td>
+    <td>{{ room.amenities }}</td>
+    <td>{{ room.price }}</td>
+    <td><img [ngSrc]="room.photos" alt="房间图片" width="250" height="150"></td>  <!-- 显示图片 -->
+    <td>{{ room.checkinTime | date: 'yyyy-MM-dd' }}</td>  <!-- 格式化日期 -->
+    <td>{{ room.checkoutTime | date: 'yyyy-MM-dd' }}</td> <!-- 格式化日期 -->
+  </tr>
+  </tbody>
+</table>

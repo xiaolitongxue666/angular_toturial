@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {DatePipe, NgForOf, NgOptimizedImage} from '@angular/common';
 import {RoomList} from "./rooms-list";
 
@@ -17,5 +17,10 @@ export class RoomsListComponent {
 
   @Input() rooms: RoomList[] = [];
 
+  @Output() selectedRoom = new EventEmitter<RoomList>()
+
+  selectRoom(room: RoomList) {
+    this.selectedRoom.emit(room);
+  }
 }
 

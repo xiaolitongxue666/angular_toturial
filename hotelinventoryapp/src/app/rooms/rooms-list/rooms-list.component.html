@@ -10,6 +10,7 @@ Room List
     <th>photos</th>
     <th>checkinTime</th>
     <th>checkoutTime</th>
+    <th>Select Room</th>
   </tr>
   </thead>
   <tbody>
@@ -22,6 +23,9 @@ Room List
     <td><img [ngSrc]="room.photos" alt="房间图片" width="250" height="150"></td>  <!-- 显示图片 -->
     <td>{{ room.checkinTime | date: 'yyyy-MM-dd' }}</td>  <!-- 格式化日期 -->
     <td>{{ room.checkoutTime | date: 'yyyy-MM-dd' }}</td> <!-- 格式化日期 -->
+    <td>
+      <button (click)="selectRoom(room)">Select</button>
+    </td>
   </tr>
   </tbody>
 </table>

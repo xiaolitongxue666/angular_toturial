@@ -13,5 +13,5 @@ Number of Rooms:
 <button (click)="toggle()">Toggle</button>
 
 <div *ngIf="rooms.availableRooms > 0">
-  <hinv-rooms-list></hinv-rooms-list>
+  <hinv-rooms-list [rooms]="roomList"></hinv-rooms-list>
 </div>

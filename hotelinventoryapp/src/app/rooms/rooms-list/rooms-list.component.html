@@ -13,7 +13,7 @@ Room List
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let room of roomList let e = even; let o = odd; let i = index;">
+  <tr *ngFor="let room of rooms let e = even; let o = odd; let i = index;">
     <td>{{ i }}</td>
     <td>{{ e ? "Even" : "Odd" }}</td>
     <td>{{ room.rootType }}</td>

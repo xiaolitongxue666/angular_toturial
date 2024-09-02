@@ -4,21 +4,33 @@
   <img [ngSrc]="imageUrl" alt="Picture" width="500" height="300">
 </div>
 
+<hr />
+
 <button [disabled]="isLoading">Loadings...</button>
+
+<hr />
 
 Number of Rooms:
 <div [innerText]="numberOfRooms"></div>
 <!--document.getElementById("numberOfRooms").innerText = numberOfRooms;-->
 
+<hr />
+
 <button (click)="toggle()">Toggle</button>
+
+<hr />
 
 <div *ngIf="selectRoom">
   {{ selectedRoom | json}}
 </div>
 
+<hr />
+
 <div>
   <button (click)="addRoom()">Add Room</button>
 </div>
+
+<hr />
 
 <div *ngIf="rooms.availableRooms > 0">
 <!--  selectRoom is the event name emitted by the child component hinv-rooms-list-->

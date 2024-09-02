@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import {DatePipe, NgForOf, NgOptimizedImage} from '@angular/common';
 import {RoomList} from "./rooms-list";
 
@@ -14,11 +23,20 @@ import {RoomList} from "./rooms-list";
   styleUrl: './rooms-list.component.scss',
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomsListComponent {
+export class RoomsListComponent implements OnInit, OnChanges {
 
   @Input() rooms: RoomList[] = [];
 
   @Output() selectedRoom = new EventEmitter<RoomList>()
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log("ngOnChanges called");
+    console.log(changes);
+  }
+
+  ngOnInit() {
+
+  }
 
   selectRoom(room: RoomList) {
     this.selectedRoom.emit(room);

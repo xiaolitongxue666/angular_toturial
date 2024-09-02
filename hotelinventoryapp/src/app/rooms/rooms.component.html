@@ -12,6 +12,14 @@ Number of Rooms:
 
 <button (click)="toggle()">Toggle</button>
 
+<div *ngIf="selectRoom">
+  {{ selectedRoom | json}}
+</div>
+
+<div>
+  <button (click)="addRoom()">Add Room</button>
+</div>
+
 <div *ngIf="rooms.availableRooms > 0">
 <!--  selectRoom is the event name emitted by the child component hinv-rooms-list-->
   <hinv-rooms-list [rooms]="roomList" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>

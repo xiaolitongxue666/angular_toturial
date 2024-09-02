@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 import {DatePipe, NgForOf, NgOptimizedImage} from '@angular/common';
 import {RoomList} from "./rooms-list";
 
@@ -11,7 +11,8 @@ import {RoomList} from "./rooms-list";
     DatePipe
   ],
   templateUrl: './rooms-list.component.html',
-  styleUrl: './rooms-list.component.scss'
+  styleUrl: './rooms-list.component.scss',
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoomsListComponent {
 

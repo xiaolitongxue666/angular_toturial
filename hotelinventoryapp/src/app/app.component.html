@@ -1,8 +1,13 @@
 <h1> Hotel Inventory App </h1>
 
-<div [ngSwitch]="loginTypes">
-  <div *ngSwitchCase="'Admin'">
-    <hinv-rooms></hinv-rooms>
-  </div>
+<!--<div [ngSwitch]="loginTypes">-->
+<!--  <div *ngSwitchCase="'Admin'">-->
+<!--    <hinv-rooms></hinv-rooms>-->
+<!--  </div>-->
 
+<!--</div>-->
+
+<!--Dynamically load the rooms component-->
+<div>
+  <ng-template #user></ng-template>
 </div>

@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {JsonPipe, NgIf, NgOptimizedImage} from '@angular/common';
 import {Room} from './rooms';
 import {RoomsListComponent} from "./rooms-list/rooms-list.component";
 import {RoomList} from "./rooms-list/rooms-list";
+import {HeaderComponent} from "../header/header.component";
 
 @Component({
   selector: 'hinv-rooms',
@@ -12,6 +13,7 @@ import {RoomList} from "./rooms-list/rooms-list";
     NgIf,
     RoomsListComponent,
     JsonPipe,
+    HeaderComponent,
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss'
@@ -21,6 +23,21 @@ export class RoomsComponent {
   imageUrl = 'https://p1.itc.cn/q_70/images01/20211122/76b8d5be7e06432882a65b0059200b18.png';
   isLoading = false;
   numberOfRooms = 10;
+
+  // 静态查询意味着 Angular 会在组件初始化阶段（ngOnInit 之前）就尝试查找 HeaderComponent 的实例。
+  // 如果在初始化阶段就找到了，那么 headerComponent 属性就会被赋值，否则它将保持 undefined。
+  @ViewChild(HeaderComponent, { static : true }) headerComponent: HeaderComponent | undefined;
+
+  ngAfterViewInit() {
+    if (this.headerComponent) {
+      // 使用 headerComponent
+      this.headerComponent.title = 'Rooms';
+    } else {
+      // 处理 headerComponent 为 undefined 的情况
+      console.error('headerComponent is undefined');
+    }
+  }
+
 
   // !: 这是一个非空断言运算符。它告诉 TypeScript 编译器，这个变量在使用之前一定会被赋值，所以不需要进行空值检查。
   selectedRoom!: RoomList;

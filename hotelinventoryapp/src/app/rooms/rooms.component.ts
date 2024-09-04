@@ -4,6 +4,7 @@ import {Room} from './rooms';
 import {RoomsListComponent} from "./rooms-list/rooms-list.component";
 import {RoomList} from "./rooms-list/rooms-list";
 import {HeaderComponent} from "../header/header.component";
+import {RoomsService} from "./services/rooms.service";
 
 @Component({
   selector: 'hinv-rooms',
@@ -16,13 +17,19 @@ import {HeaderComponent} from "../header/header.component";
     HeaderComponent,
   ],
   templateUrl: './rooms.component.html',
-  styleUrl: './rooms.component.scss'
+  styleUrl: './rooms.component.scss',
+  providers: [RoomsService]
 })
 export class RoomsComponent {
   hotelName = 'Hilton Hotel';
   imageUrl = 'https://p1.itc.cn/q_70/images01/20211122/76b8d5be7e06432882a65b0059200b18.png';
   isLoading = false;
   numberOfRooms = 10;
+  roomList: RoomList[];
+
+  constructor(private roomsService: RoomsService) {
+    this.roomList = this.roomsService.getRooms();
+  }
 
   // 静态查询意味着 Angular 会在组件初始化阶段（ngOnInit 之前）就尝试查找 HeaderComponent 的实例。
   // 如果在初始化阶段就找到了，那么 headerComponent 属性就会被赋值，否则它将保持 undefined。
@@ -52,32 +59,7 @@ export class RoomsComponent {
     this.numberOfRooms = this.numberOfRooms === 10 ? 5 : 10;
   }
 
-  roomList: RoomList[] = [
-    {
-      rootType: 'Deluxe Room',
-      amenities: 'Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen',
-      price: 500,
-      photos: 'https://pix10.agoda.net/hotelImages/2296893/29598206/97da276e6eec9d266fa6da5d08192cb9.jpg',
-      checkinTime: new Date('11-Nov-2021'),
-      checkoutTime: new Date('12-Nov-2021'),
-    },
-    {
-      rootType: 'Deluxe Room',
-      amenities: 'Air Conditioner, Free Wi-Fi, TV',
-      price: 300,
-      photos: 'https://pix10.agoda.net/hotelImages/2296893/29598206/97da276e6eec9d266fa6da5d08192cb9.jpg',
-      checkinTime: new Date('12-Nov-2021'),
-      checkoutTime: new Date('13-Nov-2021'),
-    },
-    {
-      rootType: 'Private Suite',
-      amenities: 'Air Conditioner, Free Wi-Fi, TV',
-      price: 1000,
-      photos: 'https://pix10.agoda.net/hotelImages/2296893/29598206/97da276e6eec9d266fa6da5d08192cb9.jpg',
-      checkinTime: new Date('14-Nov-2021'),
-      checkoutTime: new Date('15-Nov-2021'),
-    }
-  ]
+
 
   selectRoom(room: RoomList) {
     // console.log(room);

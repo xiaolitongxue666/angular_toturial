@@ -4,13 +4,15 @@ import {RoomsComponent} from "./rooms/rooms.component";
 import {NgSwitch, NgSwitchCase} from "@angular/common";
 import {ContainerComponent} from "./container/container.component";
 import {EmployeeComponent} from "./employee/employee.component";
+import {APP_CONFIG_PROVIDER} from "./AppConfig/appconfig.service"
 
 @Component({
   selector: 'hinv-root',
   standalone: true,
   imports: [RouterOutlet, RoomsComponent, NgSwitchCase, NgSwitch, ContainerComponent, EmployeeComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [APP_CONFIG_PROVIDER]
 })
 export class AppComponent implements AfterViewInit {
   title = 'hotelinventoryapp';

@@ -31,7 +31,7 @@ export class RoomsListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("ngOnChanges called");
-    console.log(changes);
+    // console.log(changes);
   }
 
   ngOnInit() {

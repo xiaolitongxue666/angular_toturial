@@ -66,8 +66,19 @@ export class AppComponent implements AfterViewInit, OnInit {
   // 获取数据的方法
   fetchData(): Observable<any> {
     // 使用 HttpClient 发送 GET 请求到指定的 URL
-    return this.http.get('https://jsonplaceholder.typicode.com/todos/1')
-      .pipe(timeout(2000)); // 设置超时时间为 2 秒
+
+    // return this.http.get('https://jsonplaceholder.typicode.com/todos/1').pipe(timeout(8000));
+
+    /*
+        在 Angular 项目中，访问 localhost:3000 时出现跨域资源共享 (CORS) 问题，
+        通常是因为 Angular 应用和你的 API 服务器运行在不同的端口上。
+        解决方法:
+        1 - 在 API 服务器上配置 CORS:
+        2 - 在 Angular 项目中配置代理:
+    */
+    // return this.http.get('http://localhost:3000/api/Rooms/').pipe(timeout(8000));
+
+    return this.http.get('/api/Rooms/').pipe(timeout(8000));
   }
 
   ngOnDestroy(): void {

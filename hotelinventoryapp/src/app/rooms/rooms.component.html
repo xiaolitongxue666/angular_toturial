@@ -38,3 +38,7 @@ Number of Rooms:
 <!--  selectRoom is the event name emitted by the child component hinv-rooms-list-->
   <hinv-rooms-list [rooms]="roomList" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
 </div>
+
+<button (click)="editRoom()">Edit Room</button>
+
+<button (click)="deleteRoom()">Delete Room</button>

@@ -86,8 +86,6 @@ export class RoomsComponent {
     this.numberOfRooms = this.numberOfRooms === 10 ? 5 : 10;
   }
 
-
-
   selectRoom(room: RoomList) {
     // console.log(room);
     this.selectedRoom = room;
@@ -116,4 +114,29 @@ export class RoomsComponent {
     });
 
   }
+
+  editRoom() {
+    const room: RoomList = {
+      roomNumber: '3',
+      rootType: 'Deluxe Room',
+      amenities: 'Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen',
+      price: 550,
+      photos: 'https://pix10.agoda.net/hotelImages/2296893/29598206/97da276e6eec9d266fa6da5d08192cb9.jpg',
+      checkinTime: new Date('11-Nov-2021'),
+      checkoutTime: new Date('12-Nov-2021'),
+      rating: 4.5,
+    };
+
+    this.roomsService.editRoom(room).subscribe((data) => {
+      this.roomList = data;
+    })
+
+  }
+
+  deleteRoom() {
+    this.roomsService.deleteRoom('3').subscribe((data) => {
+      this.roomList = data;
+    })
+  }
+
 }

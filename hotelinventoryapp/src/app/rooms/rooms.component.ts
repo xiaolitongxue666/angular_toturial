@@ -6,6 +6,7 @@ import {RoomList} from "./rooms-list/rooms-list";
 import {HeaderComponent} from "../header/header.component";
 import {RoomsService} from "./services/rooms.service";
 import { Observable } from 'rxjs';
+import {HttpEventType} from "@angular/common/http";
 
 @Component({
   selector: 'hinv-rooms',
@@ -72,7 +73,56 @@ export class RoomsComponent {
     this.roomsService.getRooms().subscribe((rooms) => {
       this.roomList = rooms;
     });
+
+    // this.roomsService.getPhotos().subscribe((photos) => {
+    //   console.log(photos);
+    // });
+
+    interface Photo {
+      albumId: number;
+      id: number;
+      title: string;
+      url: string;
+      thumbnailUrl: string;
+    }
+
+    let totalSize: number | undefined;
+
+    // Helper function to format bytes to human-readable sizes
+    function formatBytes(bytes: number, decimals = 2) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    this.roomsService.getPhotos().subscribe(event => {
+      if (event.type === HttpEventType.Sent) {
+        console.log('Request has been sent.');
+      } else if (event.type === HttpEventType.DownloadProgress) {
+        // Display formatted bytes
+        console.log(`Downloaded ${formatBytes(event.loaded)} so far, unable to determine total size.`);
+      } else if (event.type === HttpEventType.ResponseHeader) {
+        console.log('Response headers received.');
+      } else if (event.type === HttpEventType.Response) {
+        const photos = event.body as Array<Photo>;
+        console.log(photos);
+      } else {
+        console.log(`Unknown event type: ${event.type}`);
+        console.log(event);
+      }
+    });
+
+
+
+
+
+
   }
+
+
   // !: 这是一个非空断言运算符。它告诉 TypeScript 编译器，这个变量在使用之前一定会被赋值，所以不需要进行空值检查。
   selectedRoom!: RoomList;
 

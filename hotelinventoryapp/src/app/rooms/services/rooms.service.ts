@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpRequest} from '@angular/common/http';
 import {RoomList} from "../rooms-list/rooms-list";
 import {environment} from "../../../environments/environment";
 import { AppConfig } from '../../AppConfig/appconfig.interface';
@@ -33,6 +33,19 @@ export class RoomsService {
 
   deleteRoom(id: String){
     return this.http.delete<RoomList[]>(`/api/rooms/${id}`);
+  }
+
+  getPhotos() {
+    const request = new HttpRequest(
+      'GET',
+      `https://jsonplaceholder.typicode.com/photos`,
+      {
+        reportProgress: true,
+        responseType: 'json'
+        }
+      );
+
+    return this.http.request(request);
   }
 
 }

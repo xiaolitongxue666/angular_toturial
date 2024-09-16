@@ -45,22 +45,22 @@ export class AppComponent implements AfterViewInit, OnInit {
 
   ngOnInit(): void {
     // 在 ngOnInit 中订阅 fetchData()
-    this.subscription = this.fetchData().subscribe(
-      (data) => {
+    this.subscription = this.fetchData().subscribe({
+      next: (data) => {
         // 处理成功获取到的数据
         this.data = data;
         console.log('数据已获取：', this.data); // 打印获取到的 JSON 数据
       },
-      (error) => {
+      error: (error) => {
         // 处理请求错误
         console.error('请求错误：', error);
         // Provide feedback to the user
       },
-      () => {
+      complete: () => {
         // 处理请求完成
         console.log('请求完成');
       }
-    );
+    });
   }
 
   // 获取数据的方法

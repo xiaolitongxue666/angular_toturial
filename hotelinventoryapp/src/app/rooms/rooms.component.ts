@@ -5,6 +5,7 @@ import {RoomsListComponent} from "./rooms-list/rooms-list.component";
 import {RoomList} from "./rooms-list/rooms-list";
 import {HeaderComponent} from "../header/header.component";
 import {RoomsService} from "./services/rooms.service";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'hinv-rooms',
@@ -27,8 +28,16 @@ export class RoomsComponent {
   numberOfRooms = 10;
   roomList: RoomList[];
 
+  stream = new Observable<string>(observer => {
+    // observer.next() will be emitted a new data so whoever is subscribing to this stream will get the new data
+    observer.next('user1');
+    observer.next('user2');
+    observer.next('user3');
+    observer.complete();
+  });
+
   constructor(private roomsService: RoomsService) {
-    this.roomList = this.roomsService.getRooms();
+    this.roomList = [];
   }
 
   // 静态查询意味着 Angular 会在组件初始化阶段（ngOnInit 之前）就尝试查找 HeaderComponent 的实例。
@@ -45,7 +54,25 @@ export class RoomsComponent {
     }
   }
 
+  // subscribe(next?: ((value: T) => void) | null, error?: ((error: any) => void) | null, complete?: (() => void) | null): Subscription;
+  ngOnInit(): void {
 
+    this.stream.subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (error) => {
+        console.error(error);
+      },
+      complete: () => {
+        console.log('rooms stream completed');
+      }
+    });
+
+    this.roomsService.getRooms().subscribe((rooms) => {
+      this.roomList = rooms;
+    });
+  }
   // !: 这是一个非空断言运算符。它告诉 TypeScript 编译器，这个变量在使用之前一定会被赋值，所以不需要进行空值检查。
   selectedRoom!: RoomList;
 
@@ -68,19 +95,25 @@ export class RoomsComponent {
 
   addRoom() {
     const room: RoomList = {
+      roomNumber: '4',
       rootType: 'Deluxe Room',
       amenities: 'Air Conditioner, Free Wi-Fi, TV, Bathroom, Kitchen',
       price: 550,
       photos: 'https://pix10.agoda.net/hotelImages/2296893/29598206/97da276e6eec9d266fa6da5d08192cb9.jpg',
       checkinTime: new Date('11-Nov-2021'),
       checkoutTime: new Date('12-Nov-2021'),
+      rating: 4.5,
     };
 
-    // If use ChangeDetectionStrategy.OnPush, need to manually trigger change detection
+    // If you use ChangeDetectionStrategy.OnPush, need to manually trigger change detection
     //this.roomList.push(room);
 
     // Manually trigger change detection
-    this.roomList = [...this.roomList, room];
+    // this.roomList = [...this.roomList, room];
+
+    this.roomsService.addRoom(room).subscribe((data) => {
+      this.roomList = data;
+    });
 
   }
 }

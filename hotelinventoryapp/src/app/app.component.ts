@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { timeout } from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {Subscription} from 'rxjs';
+import {timeout} from 'rxjs/operators';
 import {RoomsComponent} from "./rooms/rooms.component";
 import {NgSwitch, NgSwitchCase} from "@angular/common";
 import {ContainerComponent} from "./container/container.component";
@@ -44,41 +44,42 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+
     // 在 ngOnInit 中订阅 fetchData()
-    this.subscription = this.fetchData().subscribe({
-      next: (data) => {
-        // 处理成功获取到的数据
-        this.data = data;
-        console.log('数据已获取：', this.data); // 打印获取到的 JSON 数据
-      },
-      error: (error) => {
-        // 处理请求错误
-        console.error('请求错误：', error);
-        // Provide feedback to the user
-      },
-      complete: () => {
-        // 处理请求完成
-        console.log('请求完成');
-      }
-    });
+    //   this.subscription = this.fetchData().subscribe({
+    //     next: (data) => {
+    //       // 处理成功获取到的数据
+    //       this.data = data;
+    //       console.log('数据已获取：', this.data); // 打印获取到的 JSON 数据
+    //     },
+    //     error: (error) => {
+    //       // 处理请求错误
+    //       console.error('请求错误：', error);
+    //       // Provide feedback to the user
+    //     },
+    //     complete: () => {
+    //       // 处理请求完成
+    //       console.log('请求完成');
+    //     }
+    //   });
   }
 
   // 获取数据的方法
-  fetchData(): Observable<any> {
-    // 使用 HttpClient 发送 GET 请求到指定的 URL
+  // fetchData(): Observable<any> {
+  //   // 使用 HttpClient 发送 GET 请求到指定的 URL
+  //
+  //   // return this.http.get('https://jsonplaceholder.typicode.com/todos/1').pipe(timeout(8000));
+  //
+  //   // return this.http.get('http://localhost:3000/api/Rooms/').pipe(timeout(8000));
+  //
+  //   return this.http.get('/api/Rooms/').pipe(timeout(8000));
+  // }
 
-    // return this.http.get('https://jsonplaceholder.typicode.com/todos/1').pipe(timeout(8000));
-
-    // return this.http.get('http://localhost:3000/api/Rooms/').pipe(timeout(8000));
-
-    return this.http.get('/api/Rooms/').pipe(timeout(8000));
-  }
-
-  ngOnDestroy(): void {
-    // 在组件销毁之前取消订阅
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // ngOnDestroy(): void {
+  //   // 在组件销毁之前取消订阅
+  //   if (this.subscription) {
+  //     this.subscription.unsubscribe();
+  //   }
+  // }
 
 }

@@ -1,11 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
-import {JsonPipe, NgIf, NgOptimizedImage} from '@angular/common';
+import {AsyncPipe, JsonPipe, NgIf, NgOptimizedImage} from '@angular/common';
 import {Room} from './rooms';
 import {RoomsListComponent} from "./rooms-list/rooms-list.component";
 import {RoomList} from "./rooms-list/rooms-list";
 import {HeaderComponent} from "../header/header.component";
 import {RoomsService} from "./services/rooms.service";
-import { Observable } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {HttpEventType} from "@angular/common/http";
 
 @Component({
@@ -17,6 +17,7 @@ import {HttpEventType} from "@angular/common/http";
     RoomsListComponent,
     JsonPipe,
     HeaderComponent,
+    AsyncPipe,
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss',
@@ -29,13 +30,18 @@ export class RoomsComponent {
   numberOfRooms = 10;
   roomList: RoomList[];
 
-  stream = new Observable<string>(observer => {
-    // observer.next() will be emitted a new data so whoever is subscribing to this stream will get the new data
-    observer.next('user1');
-    observer.next('user2');
-    observer.next('user3');
-    observer.complete();
-  });
+  // stream = new Observable<string>(observer => {
+  //   // observer.next() will be emitted a new data so whoever is subscribing to this stream will get the new data
+  //   observer.next('user1');
+  //   observer.next('user2');
+  //   observer.next('user3');
+  //   observer.complete();
+  // });
+
+  subscription: Subscription = new Subscription(); // Corrected declaration
+
+  // This is empty because we don't have any observables yet
+  rooms$: Observable<RoomList[]> | undefined; // Declare the observable
 
   constructor(private roomsService: RoomsService) {
     this.roomList = [];
@@ -43,7 +49,7 @@ export class RoomsComponent {
 
   // 静态查询意味着 Angular 会在组件初始化阶段（ngOnInit 之前）就尝试查找 HeaderComponent 的实例。
   // 如果在初始化阶段就找到了，那么 headerComponent 属性就会被赋值，否则它将保持 undefined。
-  @ViewChild(HeaderComponent, { static : true }) headerComponent: HeaderComponent | undefined;
+  @ViewChild(HeaderComponent, {static: true}) headerComponent: HeaderComponent | undefined;
 
   ngAfterViewInit() {
     if (this.headerComponent) {
@@ -58,21 +64,28 @@ export class RoomsComponent {
   // subscribe(next?: ((value: T) => void) | null, error?: ((error: any) => void) | null, complete?: (() => void) | null): Subscription;
   ngOnInit(): void {
 
-    this.stream.subscribe({
-      next: (data) => {
-        console.log(data);
-      },
-      error: (error) => {
-        console.error(error);
-      },
-      complete: () => {
-        console.log('rooms stream completed');
-      }
-    });
+    this.rooms$ = this.roomsService.getRooms$;
 
-    this.roomsService.getRooms().subscribe((rooms) => {
-      this.roomList = rooms;
-    });
+    // this.stream.subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //   },
+    //   error: (error) => {
+    //     console.error(error);
+    //   },
+    //   complete: () => {
+    //     console.log('rooms stream completed');
+    //   }
+    // });
+
+    // this.roomsService.getRooms().subscribe((rooms) =>
+    // Use this variable to hold the subscription so that we can unsubscribe when the component is destroyed
+    // this.roomsService.getRooms$.subscribe((rooms) =>
+    // {
+    //   this.roomList = rooms;
+    // });
+
+    ///////////////////////////////////////////////////////////////////
 
     // this.roomsService.getPhotos().subscribe((photos) => {
     //   console.log(photos);
@@ -114,10 +127,6 @@ export class RoomsComponent {
         console.log(event);
       }
     });
-
-
-
-
 
 
   }
@@ -187,6 +196,13 @@ export class RoomsComponent {
     this.roomsService.deleteRoom('3').subscribe((data) => {
       this.roomList = data;
     })
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe from the observable when the component is destroyed
+    if(this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
 }

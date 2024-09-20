@@ -1,5 +1,5 @@
-import { InjectionToken } from '@angular/core';
-import { AppConfig } from './appconfig.interface';
+import {InjectionToken} from '@angular/core';
+import {AppConfig} from './appconfig.interface';
 import {environment} from '../../environments/environment';
 
 export const APP_CONFIG: AppConfig = {

@@ -10,10 +10,10 @@ import {EmployeeComponent} from "../employee/employee.component";
 })
 export class ContainerComponent implements OnInit, AfterContentInit {
 
-  @ContentChild(EmployeeComponent) employee! : EmployeeComponent;
+  @ContentChild(EmployeeComponent) employee!: EmployeeComponent;
 
 
-  ngOnInit(): void{
+  ngOnInit(): void {
 
   }
 

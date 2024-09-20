@@ -2,8 +2,9 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpRequest} from '@angular/common/http';
 import {RoomList} from "../rooms-list/rooms-list";
 import {environment} from "../../../environments/environment";
-import { AppConfig } from '../../AppConfig/appconfig.interface';
-import { APP_SERVICE_CONFIG } from "../../AppConfig/appconfig.service"
+import {AppConfig} from '../../AppConfig/appconfig.interface';
+import {APP_SERVICE_CONFIG} from "../../AppConfig/appconfig.service"
+import {Observable, shareReplay} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,20 @@ export class RoomsService {
 
   roomList: RoomList[] = [];
 
+  // '$' sign is used to denote observables, means this is a stream of data
+  getRooms$: Observable<RoomList[]>; // Declare the observable without initializing it
+
+
   constructor(@Inject(APP_SERVICE_CONFIG) private appConfig: AppConfig, private http: HttpClient) {
     console.log(environment.apiUrl);
     console.log('RoomsService initialized...');
     console.log(this.appConfig.aipEndpoint)
+
+    // Initialize getRooms$ after http is initialized
+    this.getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(
+      shareReplay(1) // share the result of the first call to the server and replay it to subscribers
+    );
+
   }
 
   getRooms() {
@@ -31,7 +42,7 @@ export class RoomsService {
     return this.http.put<RoomList[]>(`/api/rooms/${room.roomNumber}`, room);
   }
 
-  deleteRoom(id: String){
+  deleteRoom(id: String) {
     return this.http.delete<RoomList[]>(`/api/rooms/${id}`);
   }
 
@@ -42,8 +53,8 @@ export class RoomsService {
       {
         reportProgress: true,
         responseType: 'json'
-        }
-      );
+      }
+    );
 
     return this.http.request(request);
   }

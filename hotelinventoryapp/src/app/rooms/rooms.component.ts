@@ -5,7 +5,7 @@ import {RoomsListComponent} from "./rooms-list/rooms-list.component";
 import {RoomList} from "./rooms-list/rooms-list";
 import {HeaderComponent} from "../header/header.component";
 import {RoomsService} from "./services/rooms.service";
-import {catchError, Observable, of, Subject, Subscription} from 'rxjs';
+import {catchError, map, Observable, of, Subject, Subscription} from 'rxjs';
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 
 @Component({
@@ -43,6 +43,8 @@ export class RoomsComponent {
   // This is empty because we don't have any observables yet
   rooms$: Observable<RoomList[]> | undefined; // Declare the observable
 
+  roomsCount$: Observable<number> | undefined; // Declare the observable
+
   error$ = new Subject<string>(); // Declare the error observable
 
   // getError$ : Observable<HttpErrorResponse> | undefined;
@@ -78,6 +80,11 @@ export class RoomsComponent {
         this.error$.next(err.message);
         return of([]);
       })
+    );
+
+    // Try to use map operator to transform the observable
+    this.roomsCount$ = this.roomsService.getRooms$.pipe(
+      map((rooms) => rooms.length)
     );
 
     // this.stream.subscribe({

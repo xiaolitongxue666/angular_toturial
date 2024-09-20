@@ -5,8 +5,8 @@ import {RoomsListComponent} from "./rooms-list/rooms-list.component";
 import {RoomList} from "./rooms-list/rooms-list";
 import {HeaderComponent} from "../header/header.component";
 import {RoomsService} from "./services/rooms.service";
-import {Observable, Subscription} from 'rxjs';
-import {HttpEventType} from "@angular/common/http";
+import {catchError, Observable, of, Subject, Subscription} from 'rxjs';
+import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 
 @Component({
   selector: 'hinv-rooms',
@@ -43,6 +43,11 @@ export class RoomsComponent {
   // This is empty because we don't have any observables yet
   rooms$: Observable<RoomList[]> | undefined; // Declare the observable
 
+  error$ = new Subject<string>(); // Declare the error observable
+
+  // getError$ : Observable<HttpErrorResponse> | undefined;
+  getError$ : Observable<string> | undefined;
+
   constructor(private roomsService: RoomsService) {
     this.roomList = [];
   }
@@ -64,7 +69,16 @@ export class RoomsComponent {
   // subscribe(next?: ((value: T) => void) | null, error?: ((error: any) => void) | null, complete?: (() => void) | null): Subscription;
   ngOnInit(): void {
 
-    this.rooms$ = this.roomsService.getRooms$;
+    this.getError$ = this.error$.asObservable();
+
+    // this.rooms$ = this.roomsService.getRooms$;
+    this.rooms$ = this.roomsService.getRooms$.pipe(
+      catchError((err) => {
+        // console.error(err);
+        this.error$.next(err.message);
+        return of([]);
+      })
+    );
 
     // this.stream.subscribe({
     //   next: (data) => {

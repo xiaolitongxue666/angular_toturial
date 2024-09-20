@@ -23,9 +23,17 @@ export class RoomsService {
     console.log(this.appConfig.aipEndpoint)
 
     // Initialize getRooms$ after http is initialized
+
+    // Ok
     this.getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(
       shareReplay(1) // share the result of the first call to the server and replay it to subscribers
     );
+
+    // Fail
+    // this.getRooms$ = this.http.get<RoomList[]>('/api/room').pipe(
+    //   shareReplay(1) // share the result of the first call to the server and replay it to subscribers
+    // );
+
 
   }
 

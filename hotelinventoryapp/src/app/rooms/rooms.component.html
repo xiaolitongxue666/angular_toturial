@@ -38,6 +38,10 @@ Number of Rooms:
 
 <hr/>
 
+<h1>
+  {{getError$ | async}}
+</h1>>
+
 <div *ngIf="rooms$ | async as rooms">
   <!--  selectRoom is the event name emitted by the child component hinv-rooms-list-->
 <!--  <hinv-rooms-list [rooms]="roomList" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>-->

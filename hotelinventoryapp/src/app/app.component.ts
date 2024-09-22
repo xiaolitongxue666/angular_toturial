@@ -9,6 +9,7 @@ import {ContainerComponent} from "./container/container.component";
 import {EmployeeComponent} from "./employee/employee.component";
 import {APP_CONFIG_PROVIDER} from "./AppConfig/appconfig.service"
 import {Observable} from "rxjs";
+import { InitService } from "./init.service"
 
 @Component({
   selector: 'hinv-root',
@@ -23,7 +24,7 @@ import {Observable} from "rxjs";
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [APP_CONFIG_PROVIDER]
+  providers: [APP_CONFIG_PROVIDER, InitService]
 })
 export class AppComponent implements AfterViewInit, OnInit {
   title = 'hotelinventoryapp';
@@ -32,7 +33,7 @@ export class AppComponent implements AfterViewInit, OnInit {
   data: any; // 用于存储获取到的 JSON 数据
   subscription: Subscription; // 用于存储对 HTTP 请求的订阅
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private init_service: InitService) {
     this.subscription = Subscription.EMPTY; // 初始化 subscription
   }
 
@@ -44,6 +45,9 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
+
+    // Show init service config
+    console.log('Init service config:', this.init_service.config);
 
     // 在 ngOnInit 中订阅 fetchData()
     //   this.subscription = this.fetchData().subscribe({

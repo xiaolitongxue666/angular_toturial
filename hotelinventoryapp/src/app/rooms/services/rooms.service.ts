@@ -16,20 +16,24 @@ export class RoomsService {
   // '$' sign is used to denote observables, means this is a stream of data
   getRooms$: Observable<RoomList[]>; // Declare the observable without initializing it
 
-  headers = new HttpHeaders({ 'token' : '123456789' });
+  // headers = new HttpHeaders({ 'token' : '123456789' });
 
   constructor(@Inject(APP_SERVICE_CONFIG) private appConfig: AppConfig, private http: HttpClient) {
     console.log(environment.apiUrl);
     console.log('RoomsService initialized...');
     console.log(this.appConfig.aipEndpoint)
 
-    // Initialize getRooms$ after http is initialized
-
     // Ok
-
-    this.getRooms$ = this.http.get<RoomList[]>('/api/rooms', { headers: this.headers }).pipe(
+    this.getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(
       shareReplay(1) // share the result of the first call to the server and replay it to subscribers
     );
+
+    // Initialize getRooms$ after http is initialized
+
+    // Ok with headers
+    // this.getRooms$ = this.http.get<RoomList[]>('/api/rooms', { headers: this.headers }).pipe(
+    //   shareReplay(1) // share the result of the first call to the server and replay it to subscribers
+    // );
 
     // Fail
     // this.getRooms$ = this.http.get<RoomList[]>('/api/room').pipe(
@@ -46,9 +50,11 @@ export class RoomsService {
   }
 
   addRoom(room: RoomList) {
-    return this.http.post<RoomList[]>('/api/rooms', room, {
-      headers: this.headers,
-    });
+    // return this.http.post<RoomList[]>('/api/rooms', room, {
+    //   headers: this.headers,
+    // });
+
+    return this.http.post<RoomList[]>('/api/rooms', room);
   }
 
 

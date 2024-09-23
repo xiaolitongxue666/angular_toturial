@@ -44,10 +44,29 @@ export class AppComponent implements AfterViewInit, OnInit {
     componentRef.instance.numberOfRooms = 50;
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void>{
 
     // Show init service config
-    console.log('Init service config:', this.init_service.config);
+    // this.subscription = this.init_service.init().subscribe(() => {
+    //   console.log('Type of config:', typeof this.init_service.config);
+    //   console.log('Init service config:', this.init_service.config);
+    // });
+
+    try {
+      // Wait for the config to be initialized
+      await this.init_service.init();
+
+      // After the config is loaded, access it
+      this.init_service.config$.subscribe((config) => {
+        console.log('Config in ngOnInit:', config);
+        // Now you can proceed with other operations that depend on the config
+      });
+    } catch (error) {
+      console.error('Error loading config:', error);
+    }
+
+    // By now the config should already be loaded by APP_INITIALIZER
+    // console.log('Config in ngOnInit:', this.init_service.config); // Ensure this is defined
 
     // 在 ngOnInit 中订阅 fetchData()
     //   this.subscription = this.fetchData().subscribe({

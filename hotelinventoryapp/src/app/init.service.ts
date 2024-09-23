@@ -49,28 +49,17 @@ export class InitService {
 
     console.log("init.service.init() called");
 
-    // return this.http
-    //   .get('/assets/config.json')
-    //   .pipe(
-    //     tap((config) => {
-    //       this.configSubject.next(config); // Push the config into BehaviorSubject
-    //       console.log('Config loaded in InitService:', config);
-    //     })
-    //   )
-    //   .toPromise()
-    //   .then(() => {
-    //     // Return void to satisfy Promise<void>
-    //     return;
-    //   });
-
     return new Promise<void>((resolve, reject) => {
       console.log("AppInitService.init() called");
       ////do your initialisation stuff here
-      setTimeout(() => {
-        console.log('AppInitService Finished');
-
-        resolve();
-      }, 6000);
+      this.http
+        .get('/assets/config.json')
+        .pipe(
+          tap((config) => {
+            this.configSubject.next(config); // Push the config into BehaviorSubject
+            console.log('Config loaded in InitService:', config);
+          })
+        ).subscribe(() => resolve())
     });
 
     // try {

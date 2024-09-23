@@ -67,6 +67,10 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     // By now the config should already be loaded by APP_INITIALIZER
     // console.log('Config in ngOnInit:', this.init_service.config); // Ensure this is defined
+    //   this.init_service.config$.subscribe((config) => {
+    //     console.log('Config in ngOnInit:', config);
+    //     // Now you can proceed with other operations that depend on the config
+    //   });
 
     // 在 ngOnInit 中订阅 fetchData()
     //   this.subscription = this.fetchData().subscribe({

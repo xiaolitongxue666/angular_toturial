@@ -43,7 +43,12 @@ export class InitService {
   // }
 
   // Change this method to return a promise for APP_INITIALIZER
-  init(): Promise<void> {
+
+  // init(): Promise<void> {
+  async init(): Promise<void> {
+
+    console.log("init.service.init() called");
+
     // return this.http
     //   .get('/assets/config.json')
     //   .pipe(
@@ -66,8 +71,25 @@ export class InitService {
 
         resolve();
       }, 6000);
-
     });
+
+    // try {
+    //   const config = await this.http
+    //     .get('/assets/config.json')
+    //     .pipe(
+    //       tap((config) => {
+    //         this.configSubject.next(config); // Push the config into BehaviorSubject
+    //         console.log('Config loaded in InitService:', config);
+    //       })
+    //     )
+    //     .toPromise();
+    //
+    //   console.log('AppInitService Finished');
+    //   return; // Return void to satisfy Promise<void>
+    // } catch (error) {
+    //   console.error('Error loading config:', error);
+    //   return Promise.reject(error); // Handle error if needed
+    // }
 
   }
 

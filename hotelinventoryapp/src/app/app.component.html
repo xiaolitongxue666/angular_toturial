@@ -1,4 +1,4 @@
-<h1> Hotel Inventory App </h1>
+<!--<h1> Hotel Inventory App </h1>-->
 
 <!--<div [ngSwitch]="loginTypes">-->
 <!--  <div *ngSwitchCase="'Admin'">-->
@@ -12,12 +12,16 @@
 <!--  <ng-template #user></ng-template>-->
 <!--</div>-->
 
-<hinv-container>
+<!--<hinv-container>-->
+<!--  <hinv-rooms></hinv-rooms>-->
+<!--  <h1> This is from ng-content </h1>-->
+<!--  <hinv-employee></hinv-employee>-->
+<!--</hinv-container>-->
 
-  <hinv-rooms></hinv-rooms>
+<a [routerLink]="'rooms'">Rooms</a>
 
-  <h1> This is from ng-content </h1>
+<br>
 
-  <hinv-employee></hinv-employee>
+<a [routerLink]="'employee'">Employee</a>
 
-</hinv-container>
+<router-outlet></router-outlet>

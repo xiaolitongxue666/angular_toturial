@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {Subscription} from 'rxjs';
 import {timeout} from 'rxjs/operators';
@@ -20,7 +20,8 @@ import { InitService } from "./init.service"
     NgSwitchCase,
     NgSwitch,
     ContainerComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    RouterLink
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

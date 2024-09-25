@@ -16,7 +16,7 @@ export class RoomsBookingComponent implements OnInit {
 
   roomId: number = 0;
 
-  roomId$ !: Observable<number>;
+  // roomId$ !: Observable<number>;
 
   constructor(private router: ActivatedRoute) {}
 
@@ -32,9 +32,14 @@ export class RoomsBookingComponent implements OnInit {
     // Snapshots will never update the data, so it's better to use subscription instead.
     // this.roomId = this.router.snapshot.params['id'];
 
-    this.roomId$ = this.router.params.pipe(
-      map(params => parseInt(params['id'], 10)) // Corrected map operator
-    );
+    // this.roomId$ = this.router.params.pipe(
+    //   map(params => parseInt(params['id'], 10)) // Corrected map operator
+    // );
+
+    // Use subscription get multiple params
+    this.router.paramMap.subscribe((params) => {
+      this.roomId = parseInt(<string>params.get('id'), 10);
+    });
 
   }
 

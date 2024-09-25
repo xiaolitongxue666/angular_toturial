@@ -10,6 +10,10 @@ import {EmployeeComponent} from "./employee/employee.component";
 import {APP_CONFIG_PROVIDER} from "./AppConfig/appconfig.service"
 import {Observable} from "rxjs";
 import { InitService } from "./init.service"
+// Angular material imports
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {AppNavComponent} from "./app-nav/app-nav.component";
 
 @Component({
   selector: 'hinv-root',
@@ -21,7 +25,11 @@ import { InitService } from "./init.service"
     NgSwitch,
     ContainerComponent,
     EmployeeComponent,
-    RouterLink
+    RouterLink,
+    // Angular material imports
+    MatSlideToggleModule,
+    MatToolbarModule,
+    AppNavComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

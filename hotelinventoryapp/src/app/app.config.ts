@@ -4,7 +4,8 @@ import {routes} from './app.routes';
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import { requestInterceptor } from './request.interceptor';
 import { InitService } from './init.service'; // Import your InitService
-import { initializeApp } from './app.initializer'; // Import the initializer function
+import { initializeApp } from './app.initializer';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Import the initializer function
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,6 @@ export const appConfig: ApplicationConfig = {
       useFactory: initializeApp,
       deps: [InitService],
       multi: true
-    }
+    }, provideAnimationsAsync()
   ]
 };

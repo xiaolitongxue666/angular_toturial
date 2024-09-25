@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import {DatePipe, NgForOf, NgOptimizedImage} from '@angular/common';
 import {RoomList} from "./rooms-list";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'hinv-rooms-list',
@@ -17,7 +18,8 @@ import {RoomList} from "./rooms-list";
   imports: [
     NgForOf,
     NgOptimizedImage,
-    DatePipe
+    DatePipe,
+    RouterLink
   ],
   templateUrl: './rooms-list.component.html',
   styleUrl: './rooms-list.component.scss',

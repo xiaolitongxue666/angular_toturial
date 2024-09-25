@@ -24,7 +24,8 @@ Room List
     <td>{{ room.checkinTime | date: 'yyyy-MM-dd' }}</td>  <!-- 格式化日期 -->
     <td>{{ room.checkoutTime | date: 'yyyy-MM-dd' }}</td> <!-- 格式化日期 -->
     <td>
-      <button (click)="selectRoom(room)">Select</button>
+<!--      <button (click)="selectRoom(room)">Select</button>-->
+      <button [routerLink]="['/rooms', room.roomNumber]">Book Room</button>
     </td>
   </tr>
   </tbody>

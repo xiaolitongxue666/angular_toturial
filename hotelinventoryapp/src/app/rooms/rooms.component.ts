@@ -43,6 +43,8 @@ export class RoomsComponent {
   // This is empty because we don't have any observables yet
   rooms$: Observable<RoomList[]> | undefined; // Declare the observable
 
+  addRoom$: Observable<RoomList[]> | undefined; // Declare the observable
+
   roomsCount$: Observable<number> | undefined; // Declare the observable
 
   error$ = new Subject<string>(); // Declare the error observable
@@ -189,9 +191,24 @@ export class RoomsComponent {
     // Manually trigger change detection
     // this.roomList = [...this.roomList, room];
 
-    this.roomsService.addRoom(room).subscribe((data) => {
-      this.roomList = data;
-    });
+    // this.roomsService.addRoom(room).subscribe((data) => {
+    //   this.roomList = data;
+    // });
+
+    // this.rooms$ = this.roomsService.addRoom$.pipe(
+    //   catchError((err) => {
+    //     // console.error(err);
+    //     this.error$.next(err.message);
+    //     return of([]);
+    //   })
+    // );
+
+    this.rooms$ = this.roomsService.addRoom(room).pipe(
+      catchError((err) => {
+        this.error$.next(err.message);
+        return of([]);
+      })
+    );
 
   }
 
@@ -207,16 +224,32 @@ export class RoomsComponent {
       rating: 4.5,
     };
 
-    this.roomsService.editRoom(room).subscribe((data) => {
-      this.roomList = data;
-    })
+    // this.roomsService.editRoom(room).subscribe((data) => {
+    //   this.roomList = data;
+    // })
+
+    this.rooms$ = this.roomsService.editRoom(room).pipe(
+      catchError((err) => {
+        this.error$.next(err.message);
+        return of([]);
+      })
+    );
 
   }
 
   deleteRoom() {
-    this.roomsService.deleteRoom('3').subscribe((data) => {
-      this.roomList = data;
-    })
+
+    // this.roomsService.deleteRoom('3').subscribe((data) => {
+    //   this.roomList = data;
+    // })
+
+    this.rooms$ = this.roomsService.deleteRoom('3').pipe(
+      catchError((err) => {
+        this.error$.next(err.message);
+        return of([]);
+      })
+    );
+
   }
 
   ngOnDestroy() {

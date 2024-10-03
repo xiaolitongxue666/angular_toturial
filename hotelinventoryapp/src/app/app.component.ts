@@ -14,6 +14,7 @@ import { InitService } from "./init.service"
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {AppNavComponent} from "./app-nav/app-nav.component";
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'hinv-root',
@@ -30,6 +31,7 @@ import {AppNavComponent} from "./app-nav/app-nav.component";
     MatSlideToggleModule,
     MatToolbarModule,
     AppNavComponent,
+    FormsModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

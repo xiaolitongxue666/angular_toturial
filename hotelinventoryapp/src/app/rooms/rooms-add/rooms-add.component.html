@@ -1,37 +1,54 @@
-{{room | json}}
+{{roomForm.pristine | json}}
+{{roomForm.dirty | json}}
+{{roomForm.valid | json}}
+{{roomForm.invalid | json}}
+{{roomForm.value | json}}
 
-<div style="width: 500px;">
+<div *ngIf="successMessage !== ''" style="width: 500px;">
   {{successMessage}}
 </div>
 
-<form (ngSubmit)="AddRoom()">
+<form #roomForm="ngForm" (ngSubmit)="AddRoom()">
   <!--  Room properties-->
   <div class="form-group" style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="text" name="roomName" [(ngModel)]="room.roomNumber"  placeholder="Room Name">
+    <input required class="form-control" style="width: 500px;" type="text" name="roomName" [(ngModel)]="room.roomNumber"  placeholder="Room Name">
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="text" name="roomType" [(ngModel)]="room.rootType" placeholder="Room Type">
+    <input required class="form-control" style="width: 500px;" type="text" name="roomType" [(ngModel)]="room.rootType" placeholder="Room Type">
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="text" name="amenities" [(ngModel)]="room.amenities" placeholder="Amenities">
+    <input #room_amenities="ngModel" required minlength="5" maxlength="20" class="form-control" style="width: 500px;" type="text" name="amenities" [(ngModel)]="room.amenities" placeholder="Amenities">
+  </div>
+  <div class="alert alert-danger" *ngIf="room_amenities.errors?.['minlength']">
+<!--    {{room_amenities.errors | json}}-->
+    Amenities must be min 5 characters long.
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="number" name="price" [(ngModel)]="room.price" placeholder="Price">
+    <input required class="form-control" style="width: 500px;" type="number" name="price" [(ngModel)]="room.price" placeholder="Price">
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="url" name="photos" [(ngModel)]="room.photos" placeholder="Photos URL">
+    <input
+      required
+      class="form-control"
+      style="width: 500px;"
+      type="url"
+      name="photos"
+      [(ngModel)]="room.photos"
+      placeholder="Photos URL"
+      pattern="^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$"
+    >
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="text" name="checkinTime" [(ngModel)]="room.checkinTime" placeholder="Check-in Time">
+    <input required class="form-control" style="width: 500px;" type="text" name="checkinTime" [(ngModel)]="room.checkinTime" placeholder="Check-in Time">
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="text" name="checkoutTime" [(ngModel)]="room.checkoutTime" placeholder="Check-out Time">
+    <input required class="form-control" style="width: 500px;" type="text" name="checkoutTime" [(ngModel)]="room.checkoutTime" placeholder="Check-out Time">
   </div>
   <div class="form-group"  style="width: 500px;">
-    <input class="form-control" style="width: 500px;" type="number" name="rating" [(ngModel)]="room.rating" placeholder="Rating">
+    <input min="1" max="5" required class="form-control" style="width: 500px;" type="number" name="rating" [(ngModel)]="room.rating" placeholder="Rating">
   </div>
   <!--  Button-->
   <div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button [disabled]="roomForm.invalid" type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>

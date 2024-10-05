@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, OnInit, Renderer2} from '@angular/core';
+import {Directive, ElementRef, HostListener, Input, OnInit, Renderer2} from '@angular/core';
 
 @Directive({
   selector: '[hinvHover]',
@@ -6,7 +6,7 @@ import {Directive, ElementRef, HostListener, OnInit, Renderer2} from '@angular/c
 })
 export class HoverDirective implements OnInit {
 
-  color: string = 'red';
+  @Input() color: string = 'grey';
 
   constructor(private element: ElementRef, private renderer: Renderer2) {}
 

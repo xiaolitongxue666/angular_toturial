@@ -1,6 +1,10 @@
 {{room | json}}
 
-<form>
+<div style="width: 500px;">
+  {{successMessage}}
+</div>
+
+<form (ngSubmit)="AddRoom()">
   <!--  Room properties-->
   <div class="form-group" style="width: 500px;">
     <input class="form-control" style="width: 500px;" type="text" name="roomName" [(ngModel)]="room.roomNumber"  placeholder="Room Name">

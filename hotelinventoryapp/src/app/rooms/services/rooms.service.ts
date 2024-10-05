@@ -20,10 +20,10 @@ export class RoomsService {
   // headers = new HttpHeaders({ 'token' : '123456789' });
 
   constructor(@Inject(APP_SERVICE_CONFIG) private appConfig: AppConfig, private http: HttpClient) {
+  // constructor(private http: HttpClient) {
     console.log(environment.apiUrl);
     console.log('RoomsService initialized...');
     console.log(this.appConfig.aipEndpoint)
-
 
     /********* getRooms *********/
     // Ok

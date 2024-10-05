@@ -6,6 +6,7 @@ import { requestInterceptor } from './request.interceptor';
 import { InitService } from './init.service'; // Import your InitService
 import { initializeApp } from './app.initializer';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; // Import the initializer function
+import { APP_CONFIG_PROVIDER } from './AppConfig/appconfig.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([requestInterceptor])
     ),
+    APP_CONFIG_PROVIDER,
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,

@@ -7,7 +7,7 @@ import {RoomsComponent} from "./rooms/rooms.component";
 import {NgSwitch, NgSwitchCase} from "@angular/common";
 import {ContainerComponent} from "./container/container.component";
 import {EmployeeComponent} from "./employee/employee.component";
-import {APP_CONFIG_PROVIDER} from "./AppConfig/appconfig.service"
+// import {APP_CONFIG_PROVIDER} from "./AppConfig/appconfig.service"
 import {Observable} from "rxjs";
 import { InitService } from "./init.service"
 // Angular material imports
@@ -35,7 +35,7 @@ import {FormsModule} from "@angular/forms";
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [APP_CONFIG_PROVIDER]  // Removed InitService from here
+  // providers: [APP_CONFIG_PROVIDER]  // Removed InitService from here
 })
 export class AppComponent implements AfterViewInit, OnInit {
   title = 'hotelinventoryapp';

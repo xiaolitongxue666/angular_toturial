@@ -8,7 +8,7 @@
   {{successMessage}}
 </div>
 
-<form #roomForm="ngForm" (ngSubmit)="AddRoom()">
+<form #roomForm="ngForm" (ngSubmit)="AddRoom(roomForm)">
   <!--  Room properties-->
   <div class="form-group" style="width: 500px;">
     <input required class="form-control" style="width: 500px;" type="text" name="roomName" [(ngModel)]="room.roomNumber"  placeholder="Room Name">

@@ -44,11 +44,22 @@ export class RoomsAddComponent implements AfterViewInit {
     console.log(this.roomForm.valid);
   }
 
-  AddRoom() {
+  AddRoom(roomForm: NgForm): void {
     this.roomsService.addRoom(this.room).subscribe({
       next: (data) => {
         console.log('Room added successfully:', data); // 打印成功添加的房间数据
          this.successMessage = "Room added successfully!"; // 显示成功信息
+         // roomForm.reset(); // 重置表单
+        roomForm.resetForm({
+          roomNumber: "",
+          rootType: "",
+          amenities: "",
+          price: 0,
+          photos: "",
+          checkinTime: new Date(),
+          checkoutTime: new Date(),
+          rating: 0
+        }); // 使用默认值重置表单
       },
       error: (err) => {
         // 这里可以添加额外的错误处理逻辑，例如显示更友好的错误信息给用户

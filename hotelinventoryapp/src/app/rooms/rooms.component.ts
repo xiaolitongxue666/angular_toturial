@@ -7,6 +7,7 @@ import {HeaderComponent} from "../header/header.component";
 import {RoomsService} from "./services/rooms.service";
 import {catchError, map, Observable, of, Subject, Subscription} from 'rxjs';
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
   selector: 'hinv-rooms',
@@ -18,6 +19,7 @@ import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
     JsonPipe,
     HeaderComponent,
     AsyncPipe,
+    RouterOutlet,
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss',
@@ -58,17 +60,17 @@ export class RoomsComponent {
 
   // 静态查询意味着 Angular 会在组件初始化阶段（ngOnInit 之前）就尝试查找 HeaderComponent 的实例。
   // 如果在初始化阶段就找到了，那么 headerComponent 属性就会被赋值，否则它将保持 undefined。
-  @ViewChild(HeaderComponent, {static: true}) headerComponent: HeaderComponent | undefined;
-
-  ngAfterViewInit() {
-    if (this.headerComponent) {
-      // 使用 headerComponent
-      this.headerComponent.title = 'Rooms';
-    } else {
-      // 处理 headerComponent 为 undefined 的情况
-      console.error('headerComponent is undefined');
-    }
-  }
+  // @ViewChild(HeaderComponent, {static: true}) headerComponent: HeaderComponent | undefined;
+  //
+  // ngAfterViewInit() {
+  //   if (this.headerComponent) {
+  //     // 使用 headerComponent
+  //     this.headerComponent.title = 'Rooms';
+  //   } else {
+  //     // 处理 headerComponent 为 undefined 的情况
+  //     console.error('headerComponent is undefined');
+  //   }
+  // }
 
   // subscribe(next?: ((value: T) => void) | null, error?: ((error: any) => void) | null, complete?: (() => void) | null): Subscription;
   ngOnInit(): void {

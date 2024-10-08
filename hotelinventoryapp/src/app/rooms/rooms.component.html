@@ -1,6 +1,7 @@
 <!--<p> Welcome to {{ hotelName }} </p>-->
 
-<hinv-header #headerComponent></hinv-header>
+<!--<hinv-header #headerComponent></hinv-header>-->
+<hinv-header [title]="'Rooms'"></hinv-header>  <!-- 将标题作为输入传递 -->
 
 <!--Read rooms stream data with async pipe and json filter-->
 <!--and display it template.-->
@@ -51,6 +52,8 @@ Number of Rooms:
 <!--  <hinv-rooms-list [rooms]="roomList" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>-->
   <hinv-rooms-list [rooms]="rooms" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
 </div>
+
+<router-outlet></router-outlet>
 
 <button (click)="editRoom()">Edit Room</button>
 

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'hinv-header',
@@ -9,6 +9,6 @@ import {Component} from '@angular/core';
 })
 export class HeaderComponent {
 
-  title: string = '';
+  @Input() title: string = '';
 
 }

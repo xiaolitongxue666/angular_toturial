@@ -3,6 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {HoverDirective} from "../hover.directive";
 import {EmailvalidatorDirective} from "../emailvalidator/emailvalidator.directive";
 import {JsonPipe} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'hinv-login',
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   email: string='';
   password: string='';
 
-  constructor() { }
+  constructor(private route: Router) { }
 
   ngOnInit(): void {
 
@@ -30,6 +31,9 @@ export class LoginComponent implements OnInit {
   login() {
     if(this.email === 'admin@example.com' && this.password === 'password') {
       alert("Login Successful");
+      this.route.navigate(['/rooms']);
+      // this.route.navigate(['/rooms', 'add']);
+      // this.route.navigateByUrl('/rooms/add');
     }
   }
 }

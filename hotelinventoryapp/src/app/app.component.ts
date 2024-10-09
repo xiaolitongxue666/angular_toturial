@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
+import {NavigationEnd, NavigationStart, Router, RouterLink, RouterOutlet} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {Subscription} from 'rxjs';
+import {filter, Subscription} from 'rxjs';
 import {timeout} from 'rxjs/operators';
 import {RoomsComponent} from "./rooms/rooms.component";
 import {NgSwitch, NgSwitchCase} from "@angular/common";
@@ -44,7 +44,12 @@ export class AppComponent implements AfterViewInit, OnInit {
   data: any; // 用于存储获取到的 JSON 数据
   subscription: Subscription; // 用于存储对 HTTP 请求的订阅
 
-  constructor(private http: HttpClient, private init_service: InitService) {
+  constructor(
+    private http: HttpClient,
+    private init_service: InitService,
+    private router: Router,
+  )
+  {
     this.subscription = Subscription.EMPTY; // 初始化 subscription
   }
 
@@ -59,6 +64,25 @@ export class AppComponent implements AfterViewInit, OnInit {
 
     // Show init service config
     console.log('Init service config:', this.init_service.config);
+
+    // Show router events
+    // this.router.events.subscribe((event) => {
+    //   console.log('Router event:', event);
+    // });
+
+    // Show page loading progress
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationStart)
+    ).subscribe((event: any) => {
+      console.log('NavigationStart Started event:', event);
+    });
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      console.log('NavigationEnd Completed event:', event);
+    });
+
 
     // 在 ngOnInit 中订阅 fetchData()
     //   this.subscription = this.fetchData().subscribe({

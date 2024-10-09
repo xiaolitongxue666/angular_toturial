@@ -12,7 +12,11 @@ export const routes: Routes = [
     path: 'rooms',
     component: RoomsComponent,
     children: [
-      { path: 'add', component: RoomsAddComponent },
+      // { path: 'add', component: RoomsAddComponent },
+      {
+        path: 'add',
+        loadComponent: () => import('./rooms/rooms-add/rooms-add.component').then(m => m.RoomsAddComponent),
+      },
       { path: ':id', component: RoomsBookingComponent }
     ]
   },

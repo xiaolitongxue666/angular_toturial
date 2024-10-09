@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {RouterLink, RouterOutlet} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'hinv-app-nav',
@@ -34,4 +35,13 @@ export class AppNavComponent {
       map(result => result.matches),
       shareReplay()
     );
+
+  private router = inject(Router);
+
+  logout() {
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/login']); // 注销后跳转到登录页面
+  }
+
 }

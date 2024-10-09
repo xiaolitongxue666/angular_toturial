@@ -30,10 +30,19 @@ export class LoginComponent implements OnInit {
 
   login() {
     if(this.email === 'admin@example.com' && this.password === 'password') {
+
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userRole', 'admin'); // 设置用户角色
+
       alert("Login Successful");
       this.route.navigate(['/rooms']);
       // this.route.navigate(['/rooms', 'add']);
       // this.route.navigateByUrl('/rooms/add');
+    } else {
+      alert("Login Failed");
     }
   }
+
+
+
 }

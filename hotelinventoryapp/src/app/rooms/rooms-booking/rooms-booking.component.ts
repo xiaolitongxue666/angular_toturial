@@ -1,46 +1,49 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {map, Observable} from "rxjs";
-import {AsyncPipe} from "@angular/common";
+import {catchError, map, Observable, of, Subject} from "rxjs";
+import {RoomsService} from "../services/rooms.service";
+import {RoomList} from "../rooms-list/rooms-list";
+import {JsonPipe} from "@angular/common";
 
 @Component({
   selector: 'hinv-rooms-booking',
   standalone: true,
-  imports: [
-    AsyncPipe
-  ],
   templateUrl: './rooms-booking.component.html',
-  styleUrl: './rooms-booking.component.scss'
+  imports: [
+    JsonPipe
+  ],
+  styleUrls: ['./rooms-booking.component.scss']
 })
 export class RoomsBookingComponent implements OnInit {
 
   roomId: number = 0;
+  roomList: RoomList[] = [];
+  error$ = new Subject<string>();
+  modified_room: RoomList | undefined;
 
-  // roomId$ !: Observable<number>;
-
-  constructor(private router: ActivatedRoute) {}
+  constructor(private router: ActivatedRoute, private roomsService: RoomsService) { }
 
   ngOnInit() {
-
-    // Use subscription
-    // this.router.params.subscribe((params) => {
-    //   console.log(params);
-    //   this.roomId = params['id'];
-    // });
-
-    // Use snapshot
-    // Snapshots will never update the data, so it's better to use subscription instead.
-    // this.roomId = this.router.snapshot.params['id'];
-
-    // this.roomId$ = this.router.params.pipe(
-    //   map(params => parseInt(params['id'], 10)) // Corrected map operator
-    // );
-
-    // Use subscription get multiple params
+    // Get the roomId from the URL
     this.router.paramMap.subscribe((params) => {
       this.roomId = parseInt(<string>params.get('id'), 10);
     });
 
+    // Programmatically subscribe to rooms$
+    this.roomsService.getRooms$.pipe(
+      map(rooms => {
+        this.roomList = rooms; // Store rooms in roomList
+        this.modified_room = this.roomList.find(room => room.roomNumber === this.roomId.toString());
+        if (this.modified_room) {
+          console.log('Found Room:', this.modified_room);
+        } else {
+          console.log('No room found with the specified room number.');
+        }
+      }),
+      catchError((err) => {
+        this.error$.next(err.message);
+        return of([]);
+      })
+    ).subscribe();
   }
-
 }

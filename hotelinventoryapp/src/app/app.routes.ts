@@ -22,9 +22,10 @@ export const routes: Routes = [
         data: { role: 'super_admin' },
         canMatch: [loginCanMatchGuard]
       },
-      { path: ':id', component: RoomsBookingComponent, canActivate: [loginCanActivateGuard] } // 需要登录
+      // { path: ':id', component: RoomsBookingComponent, canActivate: [loginCanActivateGuard] } // 需要登录
     ]
   },
+  { path: 'rooms/:id', component: RoomsBookingComponent, canActivate: [loginCanActivateGuard] }, // 需要登录
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // 默认路由
   { path: '**', component: NotfoundComponent } // 404 路由

@@ -1,2 +1,16 @@
-<!--Book Rooms ID : {{roomId$ | async}}-->
-Book Rooms ID : {{roomId}}
+<!-- Show Room ID directly -->
+Book Rooms ID: {{roomId}}
+
+<br> ======================= <br>
+
+<!-- Show the modified room in JSON format -->
+{{modified_room | json}}
+
+<br> ======================= <br>
+
+<!-- Commented out the full rooms list -->
+<!--
+<div *ngIf="rooms$ | async as rooms">
+  {{rooms | json}}
+</div>
+-->

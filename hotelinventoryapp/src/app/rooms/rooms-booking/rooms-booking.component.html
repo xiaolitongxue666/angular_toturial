@@ -14,3 +14,65 @@ Book Rooms ID: {{roomId}}
   {{rooms | json}}
 </div>
 -->
+
+<form [formGroup]="roomBookingForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="roomNumber">房间号:</label>
+    <input type="text" id="roomNumber" formControlName="roomNumber">
+    <div *ngIf="roomBookingForm.get('roomNumber')?.invalid && (roomBookingForm.get('roomNumber')?.dirty || roomBookingForm.get('roomNumber')?.touched)">
+      房间号必填
+    </div>
+  </div>
+
+  <div>
+    <label for="roomType">房间类型:</label>
+    <input type="text" id="roomType" formControlName="roomType">
+    <div *ngIf="roomBookingForm.get('roomType')?.invalid && (roomBookingForm.get('roomType')?.dirty || roomBookingForm.get('roomType')?.touched)">
+      房间类型必填
+    </div>
+  </div>
+
+  <div>
+    <label for="amenities">设施:</label>
+    <input type="text" id="amenities" formControlName="amenities">
+  </div>
+
+  <div>
+    <label for="price">价格:</label>
+    <input type="number" id="price" formControlName="price">
+    <div *ngIf="roomBookingForm.get('price')?.invalid && (roomBookingForm.get('price')?.dirty || roomBookingForm.get('price')?.touched)">
+      价格必填且必须大于等于0
+    </div>
+  </div>
+
+  <div>
+    <label for="photos">照片:</label>
+    <input type="text" id="photos" formControlName="photos">
+  </div>
+
+  <div>
+    <label for="checkinTime">入住时间:</label>
+    <input type="datetime-local" id="checkinTime" formControlName="checkinTime">
+    <div *ngIf="roomBookingForm.get('checkinTime')?.invalid && (roomBookingForm.get('checkinTime')?.dirty || roomBookingForm.get('checkinTime')?.touched)">
+      入住时间必填
+    </div>
+  </div>
+
+  <div>
+    <label for="checkoutTime">退房时间:</label>
+    <input type="datetime-local" id="checkoutTime" formControlName="checkoutTime">
+    <div *ngIf="roomBookingForm.get('checkoutTime')?.invalid && (roomBookingForm.get('checkoutTime')?.dirty || roomBookingForm.get('checkoutTime')?.touched)">
+      退房时间必填
+    </div>
+  </div>
+
+  <div>
+    <label for="rating">评分 (0-5):</label>
+    <input type="number" id="rating" formControlName="rating">
+    <div *ngIf="roomBookingForm.get('rating')?.invalid && (roomBookingForm.get('rating')?.dirty || roomBookingForm.get('rating')?.touched)">
+      评分必填且必须在0-5之间
+    </div>
+  </div>
+
+  <button type="submit">提交</button>
+</form>

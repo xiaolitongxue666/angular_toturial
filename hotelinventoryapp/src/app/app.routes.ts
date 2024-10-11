@@ -18,7 +18,9 @@ export const routes: Routes = [
       {
         path: 'add',
         loadComponent: () => import('./rooms/rooms-add/rooms-add.component').then(m => m.RoomsAddComponent),
-        canActivate: [loginCanActivateGuard] // 需要登录
+        // canActivate: [loginCanActivateGuard] // 需要登录
+        data: { role: 'super_admin' },
+        canMatch: [loginCanMatchGuard]
       },
       { path: ':id', component: RoomsBookingComponent, canActivate: [loginCanActivateGuard] } // 需要登录
     ]

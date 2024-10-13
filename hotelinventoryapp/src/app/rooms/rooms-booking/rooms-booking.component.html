@@ -53,15 +53,14 @@ Book Rooms ID: {{roomId}}
   <div>
     <label for="checkinTime">入住时间:</label>
     <input type="datetime-local" id="checkinTime" formControlName="checkinTime">
-    <div *ngIf="roomBookingForm.get('checkinTime')?.invalid && (roomBookingForm.get('checkinTime')?.dirty || roomBookingForm.get('checkinTime')?.touched)">
+    <div *ngIf="roomBookingForm.get('checkinTime')?.invalid && roomBookingForm.get('checkinTime')?.touched">
       入住时间必填
     </div>
   </div>
-
   <div>
     <label for="checkoutTime">退房时间:</label>
     <input type="datetime-local" id="checkoutTime" formControlName="checkoutTime">
-    <div *ngIf="roomBookingForm.get('checkoutTime')?.invalid && (roomBookingForm.get('checkoutTime')?.dirty || roomBookingForm.get('checkoutTime')?.touched)">
+    <div *ngIf="roomBookingForm.get('checkoutTime')?.invalid && roomBookingForm.get('checkoutTime')?.touched">
       退房时间必填
     </div>
   </div>
@@ -74,5 +73,10 @@ Book Rooms ID: {{roomId}}
     </div>
   </div>
 
-  <button type="submit">提交</button>
+  <div *ngIf="roomBookingForm.errors?.['checkinBeforeCheckout']">
+    <div class="alert alert-danger">入住时间必须早于退房时间</div>
+  </div>
+
+  <button type="submit" [disabled]="!roomBookingForm.valid">提交</button>
+  <button type="button" (click)="resetForm()">重置</button>
 </form>

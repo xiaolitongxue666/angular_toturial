@@ -4,9 +4,14 @@ import {catchError, map, Observable, of, Subject} from "rxjs";
 import {RoomsService} from "../services/rooms.service";
 import {RoomList} from "../rooms-list/rooms-list";
 import {JsonPipe, NgIf} from "@angular/common";
+import { checkinBeforeCheckoutValidator } from './checkin-before-checkout.validator';
 // Reactive Forms
-import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-
+import {
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'hinv-rooms-booking',
@@ -37,13 +42,17 @@ export class RoomsBookingComponent implements OnInit {
       roomNumber: new FormControl('', [Validators.required]),
       roomType: new FormControl('', [Validators.required]),
       amenities: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required]),
+      price: new FormControl('', [Validators.required, Validators.min(0)]),
       photos: new FormControl('', [Validators.required]),
       checkinTime: new FormControl('', [Validators.required]),
       checkoutTime: new FormControl('', [Validators.required]),
-      rating: new FormControl('', [Validators.required])
+      rating: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)])
 
-    });
+    },
+      {
+        validators: checkinBeforeCheckoutValidator()
+      }
+    );
 
   }
 
@@ -86,6 +95,10 @@ export class RoomsBookingComponent implements OnInit {
         this.roomList = data;
       })
     }
+  }
+
+  resetForm() {
+    this.roomBookingForm.reset();
   }
 
 }

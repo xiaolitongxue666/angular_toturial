@@ -7,6 +7,7 @@ import {JsonPipe, NgIf} from "@angular/common";
 import { checkinBeforeCheckoutValidator } from './checkin-before-checkout.validator';
 // Reactive Forms
 import {
+  FormBuilder,
   ReactiveFormsModule,
   FormGroup,
   FormControl,
@@ -35,20 +36,48 @@ export class RoomsBookingComponent implements OnInit {
   roomBookingForm : FormGroup;
 
   constructor(private router: ActivatedRoute,
-              private roomsService: RoomsService) {
+              private roomsService: RoomsService,
+              private fb: FormBuilder) {
 
-    // Reactive Form
-    this.roomBookingForm = new FormGroup({
-      roomNumber: new FormControl('', [Validators.required]),
-      roomType: new FormControl('', [Validators.required]),
-      amenities: new FormControl('', [Validators.required]),
-      price: new FormControl('', [Validators.required, Validators.min(0)]),
-      photos: new FormControl('', [Validators.required]),
-      checkinTime: new FormControl('', [Validators.required]),
-      checkoutTime: new FormControl('', [Validators.required]),
-      rating: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)])
-
+    // Reactive Form normal
+    // this.roomBookingForm = new FormGroup({
+    //   roomNumber: new FormControl('', [Validators.required]),
+    //   roomType: new FormControl('', [Validators.required]),
+    //   amenities: new FormControl('', [Validators.required]),
+    //   price: new FormControl('', [Validators.required, Validators.min(0)]),
+    //   photos: new FormControl('', [Validators.required]),
+    //   checkinTime: new FormControl('', [Validators.required]),
+    //   checkoutTime: new FormControl('', [Validators.required]),
+    //   rating: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)])
+    //
+    // },
+    // Reactive Form nested in FormGroup
+    // this.roomBookingForm = new FormGroup({
+    //   roomNumber: new FormControl('', [Validators.required]),
+    //   roomType: new FormControl('', [Validators.required]),
+    //   roomDetails: new FormGroup({
+    //     amenities: new FormControl('', [Validators.required]),
+    //     photos: new FormControl('', [Validators.required]),
+    //   }),
+    //   price: new FormControl('', [Validators.required, Validators.min(0)]),
+    //   checkinTime: new FormControl('', [Validators.required]),
+    //   checkoutTime: new FormControl('', [Validators.required]),
+    //   rating: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)])
+    // },
+    // Reactive Form nested in FormBuilder
+    this.roomBookingForm = this.fb.group({
+      roomNumber: ['', Validators.required],
+      roomType: ['', Validators.required],
+      roomDetails: this.fb.group({
+        amenities: ['', Validators.required],
+        photos: ['', Validators.required],
+      }),
+      price: ['', [Validators.required, Validators.min(0)]],
+      checkinTime: ['', Validators.required],
+      checkoutTime: ['', Validators.required],
+      rating: ['', [Validators.required, Validators.min(0), Validators.max(5)]]
     },
+
       {
         validators: checkinBeforeCheckoutValidator()
       }

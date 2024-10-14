@@ -1,12 +1,12 @@
 <!-- Show Room ID directly -->
-Book Rooms ID: {{roomId}}
+Book Rooms ID: {{ roomId }}
 
 <br> ======================= <br>
 
 <!-- Show the modified room in JSON format -->
-{{modified_room | json}}
+{{ modified_room | json }}
 
-<br> ======================= <br>
+<br> ==========房间信息=========== <br>
 
 <!-- Commented out the full rooms list -->
 <!--
@@ -19,7 +19,8 @@ Book Rooms ID: {{roomId}}
   <div>
     <label for="roomNumber">房间号:</label>
     <input type="text" id="roomNumber" formControlName="roomNumber">
-    <div *ngIf="roomBookingForm.get('roomNumber')?.invalid && (roomBookingForm.get('roomNumber')?.dirty || roomBookingForm.get('roomNumber')?.touched)">
+    <div
+      *ngIf="roomBookingForm.get('roomNumber')?.invalid && (roomBookingForm.get('roomNumber')?.dirty || roomBookingForm.get('roomNumber')?.touched)">
       房间号必填
     </div>
   </div>
@@ -27,7 +28,8 @@ Book Rooms ID: {{roomId}}
   <div>
     <label for="roomType">房间类型:</label>
     <input type="text" id="roomType" formControlName="roomType">
-    <div *ngIf="roomBookingForm.get('roomType')?.invalid && (roomBookingForm.get('roomType')?.dirty || roomBookingForm.get('roomType')?.touched)">
+    <div
+      *ngIf="roomBookingForm.get('roomType')?.invalid && (roomBookingForm.get('roomType')?.dirty || roomBookingForm.get('roomType')?.touched)">
       房间类型必填
     </div>
   </div>
@@ -40,7 +42,8 @@ Book Rooms ID: {{roomId}}
   <div>
     <label for="price">价格:</label>
     <input type="number" id="price" formControlName="price">
-    <div *ngIf="roomBookingForm.get('price')?.invalid && (roomBookingForm.get('price')?.dirty || roomBookingForm.get('price')?.touched)">
+    <div
+      *ngIf="roomBookingForm.get('price')?.invalid && (roomBookingForm.get('price')?.dirty || roomBookingForm.get('price')?.touched)">
       价格必填且必须大于等于0
     </div>
   </div>
@@ -68,15 +71,52 @@ Book Rooms ID: {{roomId}}
   <div>
     <label for="rating">评分 (0-5):</label>
     <input type="number" id="rating" formControlName="rating">
-    <div *ngIf="roomBookingForm.get('rating')?.invalid && (roomBookingForm.get('rating')?.dirty || roomBookingForm.get('rating')?.touched)">
+    <div
+      *ngIf="roomBookingForm.get('rating')?.invalid && (roomBookingForm.get('rating')?.dirty || roomBookingForm.get('rating')?.touched)">
       评分必填且必须在0-5之间
     </div>
   </div>
+
+  <br> ==========客人信息=========== <br>
+
+  <div formArrayName="guest">
+    <!--    [formGroupName]="i" 是一个 Angular 指令，用于将当前的 FormGroup 绑定到这个 div 元素上-->
+    <div *ngFor="let guest of guestArray.controls; let i = index" [formGroupName]="i">
+      <h5>客人 {{ i + 1 }}</h5>
+      <div>
+        <label for="guestName">姓名:</label>
+        <input type="text" id="guestName" formControlName="guestName">
+        <div
+          *ngIf="guest.get('guestName')?.invalid && (guest.get('guestName')?.dirty || guest.get('guestName')?.touched)">
+          姓名必填
+        </div>
+      </div>
+      <div>
+        <label for="guestEmail">邮箱:</label>
+        <input type="email" id="guestEmail" formControlName="guestEmail">
+        <div
+          *ngIf="guest.get('guestEmail')?.invalid && (guest.get('guestEmail')?.dirty || guest.get('guestEmail')?.touched)">
+          邮箱格式不正确
+        </div>
+      </div>
+      <div>
+        <label for="guestPhone">电话:</label>
+        <input type="tel" id="guestPhone" formControlName="guestPhone">
+        <div
+          *ngIf="guest.get('guestPhone')?.invalid && (guest.get('guestPhone')?.dirty || guest.get('guestPhone')?.touched)">
+          电话号码格式不正确 (10位数字)
+        </div>
+      </div>
+      <button type="button" (click)="removeGuest(i)">移除客人</button>
+    </div>
+  </div>
+  <button type="button" (click)="addGuest()">添加客人</button>
 
   <div *ngIf="roomBookingForm.errors?.['checkinBeforeCheckout']">
     <div class="alert alert-danger">入住时间必须早于退房时间</div>
   </div>
 
+  <br> ==========提交按钮============ <br>
   <button type="submit" [disabled]="!roomBookingForm.valid">提交</button>
   <button type="button" (click)="resetForm()">重置</button>
 </form>

@@ -3,8 +3,8 @@ import {ActivatedRoute} from "@angular/router";
 import {catchError, map, Observable, of, Subject} from "rxjs";
 import {RoomsService} from "../services/rooms.service";
 import {RoomList} from "../rooms-list/rooms-list";
-import {JsonPipe, NgIf} from "@angular/common";
-import { checkinBeforeCheckoutValidator } from './checkin-before-checkout.validator';
+import {JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {checkinBeforeCheckoutValidator} from './checkin-before-checkout.validator';
 // Reactive Forms
 import {
   FormBuilder,
@@ -12,6 +12,7 @@ import {
   FormGroup,
   FormControl,
   Validators,
+  FormArray,
 } from '@angular/forms';
 
 @Component({
@@ -21,7 +22,8 @@ import {
   imports: [
     JsonPipe,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   styleUrls: ['./rooms-booking.component.scss']
 })
@@ -33,7 +35,7 @@ export class RoomsBookingComponent implements OnInit {
   modified_room: RoomList | undefined;
 
   // Reactive Form
-  roomBookingForm : FormGroup;
+  roomBookingForm: FormGroup;
 
   constructor(private router: ActivatedRoute,
               private roomsService: RoomsService,
@@ -65,25 +67,66 @@ export class RoomsBookingComponent implements OnInit {
     //   rating: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)])
     // },
     // Reactive Form nested in FormBuilder
-    this.roomBookingForm = this.fb.group({
-      roomNumber: ['', Validators.required],
-      roomType: ['', Validators.required],
-      roomDetails: this.fb.group({
-        amenities: ['', Validators.required],
-        photos: ['', Validators.required],
-      }),
-      price: ['', [Validators.required, Validators.min(0)]],
-      checkinTime: ['', Validators.required],
-      checkoutTime: ['', Validators.required],
-      rating: ['', [Validators.required, Validators.min(0), Validators.max(5)]]
-    },
+    // this.roomBookingForm = this.fb.group({
+    //   roomNumber: ['', Validators.required],
+    //   roomType: ['', Validators.required],
+    //   roomDetails: this.fb.group({
+    //     amenities: ['', Validators.required],
+    //     photos: ['', Validators.required],
+    //   }),
+    //   price: ['', [Validators.required, Validators.min(0)]],
+    //   checkinTime: ['', Validators.required],
+    //   checkoutTime: ['', Validators.required],
+    //   rating: ['', [Validators.required, Validators.min(0), Validators.max(5)]],
+    //     guest: this.fb.array([this.createGuestGroup()])
+    // },
+    //
+    //   {
+    //     validators: checkinBeforeCheckoutValidator()
+    //   }
+    // );
+    this.roomBookingForm = this.createRoomBookingForm();
+  }
 
+  createRoomBookingForm(): FormGroup {
+    return this.fb.group({
+        roomNumber: ['', Validators.required],
+        roomType: ['', Validators.required],
+        roomDetails: this.fb.group({
+          amenities: ['', Validators.required],
+          photos: ['', Validators.required],
+        }),
+        price: ['', [Validators.required, Validators.min(0)]],
+        checkinTime: ['', Validators.required],
+        checkoutTime: ['', Validators.required],
+        rating: ['', [Validators.required, Validators.min(0), Validators.max(5)]],
+        guest: this.fb.array([this.createGuestGroup()])
+      },
       {
         validators: checkinBeforeCheckoutValidator()
-      }
-    );
-
+      });
   }
+
+  createGuestGroup(): FormGroup {
+    return this.fb.group({
+      guestName: ['', Validators.required],
+      guestEmail: ['', [Validators.required, Validators.email]],
+      guestPhone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]]
+    });
+  }
+
+  get guestArray(): FormArray {  // Getter for easy access in the template
+    return this.roomBookingForm.get('guest') as FormArray;
+  }
+
+  addGuest() {
+    this.guestArray.push(this.createGuestGroup());
+  }
+
+  removeGuest(index: number) {
+    this.guestArray.removeAt(index);
+  }
+
 
   ngOnInit() {
     // Get the roomId from the URL

@@ -152,6 +152,14 @@ export class RoomsBookingComponent implements OnInit {
         return of([]);
       })
     ).subscribe();
+
+    // Value changes
+    this.roomBookingForm.get('roomType')?.valueChanges.subscribe(value => {
+      console.log('RoomType value changed:', value);
+      // 在这里可以执行其他操作，比如更新其他控件的值
+    });
+
+
   }
 
   onSubmit() {
@@ -171,6 +179,28 @@ export class RoomsBookingComponent implements OnInit {
 
   resetForm() {
     this.roomBookingForm.reset();
+  }
+
+  useDefaultForm() {
+    this.roomBookingForm.setValue({
+      roomNumber: '101',
+      roomType: 'Deluxe Room',
+      roomDetails: {
+        amenities: 'Free Wi-Fi, Air Conditioning, Balcony, Bathroom, Kitchen, Dining Area',
+        photos: 'https://via.placeholder.com/150'
+      },
+      price: 120,
+      checkinTime: new Date(),
+      checkoutTime: new Date(),
+      rating: 5,
+      guest: [
+        {
+          guestName: 'John Doe',
+          guestEmail: 'john.doe@example.com',
+          guestPhone: '1234567890'
+        }
+      ]
+    });
   }
 
 }

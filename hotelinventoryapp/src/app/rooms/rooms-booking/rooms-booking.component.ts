@@ -191,7 +191,7 @@ export class RoomsBookingComponent implements OnInit {
       },
       price: 120,
       checkinTime: new Date(),
-      checkoutTime: new Date(),
+      checkoutTime: new Date( ),
       rating: 5,
       guest: [
         {

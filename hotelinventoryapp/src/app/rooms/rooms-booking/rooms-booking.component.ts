@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {catchError, map, mergeMap, Observable, of, Subject} from "rxjs";
+import {catchError, exhaustMap, map, mergeMap, Observable, of, Subject, switchMap} from "rxjs";
 import {RoomsService} from "../services/rooms.service";
 import {RoomList} from "../rooms-list/rooms-list";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
@@ -164,7 +164,9 @@ export class RoomsBookingComponent implements OnInit {
       // this.roomsBookingService.bookRoom(this.roomBookingForm.value).subscribe((data) => {});
 
       this.roomBookingForm.valueChanges.pipe(
-        mergeMap((data) => this.roomsBookingService.bookRoom(data))
+        // mergeMap((data) => this.roomsBookingService.bookRoom(data))
+        // switchMap((data) => this.roomsBookingService.bookRoom(data))
+        exhaustMap((data) => this.roomsBookingService.bookRoom(data))
       ).subscribe((data) => {console.log('Room Booked:', data)})
 
     });

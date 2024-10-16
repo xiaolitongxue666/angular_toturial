@@ -117,7 +117,8 @@ Book Rooms ID: {{ roomId }}
   </div>
 
   <br> ==========按钮============ <br>
-  <button type="submit" [disabled]="!roomBookingForm.valid">提交</button>
+<!--  <button type="submit" [disabled]="!roomBookingForm.valid">提交</button>-->
+  <button type="submit">提交</button>
   <button type="button" (click)="resetForm()">重置</button>
   <button type="button" (click)="useDefaultForm()">使用默认值</button>
 </form>

@@ -1,10 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {catchError, map, Observable, of, Subject} from "rxjs";
+import {catchError, map, mergeMap, Observable, of, Subject} from "rxjs";
 import {RoomsService} from "../services/rooms.service";
 import {RoomList} from "../rooms-list/rooms-list";
 import {JsonPipe, NgForOf, NgIf} from "@angular/common";
 import {checkinBeforeCheckoutValidator} from './checkin-before-checkout.validator';
+import {RoomsBookingService} from "./rooms-booking.service";
 // Reactive Forms
 import {
   FormBuilder,
@@ -39,7 +40,8 @@ export class RoomsBookingComponent implements OnInit {
 
   constructor(private router: ActivatedRoute,
               private roomsService: RoomsService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private roomsBookingService: RoomsBookingService) {
 
     // Reactive Form normal
     // this.roomBookingForm = new FormGroup({
@@ -157,24 +159,45 @@ export class RoomsBookingComponent implements OnInit {
     this.roomBookingForm.get('roomType')?.valueChanges.subscribe(value => {
       console.log('RoomType value changed:', value);
       // 在这里可以执行其他操作，比如更新其他控件的值
+
+      // Try to use RxJs map operators
+      // this.roomsBookingService.bookRoom(this.roomBookingForm.value).subscribe((data) => {});
+
+      this.roomBookingForm.valueChanges.pipe(
+        mergeMap((data) => this.roomsBookingService.bookRoom(data))
+      ).subscribe((data) => {console.log('Room Booked:', data)})
+
     });
 
 
   }
 
   onSubmit() {
-    if (this.roomBookingForm.valid) {
-      const roomData: RoomList = {
-        ...this.roomBookingForm.value,
-        checkinTime: new Date(this.roomBookingForm.value.checkinTime),
-        checkoutTime: new Date(this.roomBookingForm.value.checkoutTime),
-      };
-      console.log('提交的房间数据:', roomData);
-      //  在此处处理提交的数据，例如发送到后端
-      this.roomsService.editRoom(roomData).subscribe((data) => {
-        this.roomList = data;
-      })
-    }
+
+    // Submit the form data to local server
+    // if (this.roomBookingForm.valid) {
+    //   const roomData: RoomList = {
+    //     ...this.roomBookingForm.value,
+    //     checkinTime: new Date(this.roomBookingForm.value.checkinTime),
+    //     checkoutTime: new Date(this.roomBookingForm.value.checkoutTime),
+    //   };
+    //   console.log('提交的房间数据:', roomData);
+    //   //  在此处处理提交的数据，例如发送到后端
+    //   this.roomsService.editRoom(roomData).subscribe((data) => {
+    //     this.roomList = data;
+    //   })
+    // }
+
+    // Tty to use RxJs map operator
+    const roomData: RoomList = {
+      ...this.roomBookingForm.value,
+      checkinTime: new Date(this.roomBookingForm.value.checkinTime),
+      checkoutTime: new Date(this.roomBookingForm.value.checkoutTime),
+    };
+    console.log('提交的房间数据:', roomData);
+
+    this.roomsBookingService.bookRoom(roomData).subscribe((roomData) => {});
+
   }
 
   resetForm() {

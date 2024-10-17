@@ -7,25 +7,25 @@
 <!--and display it template.-->
 <!--{{rooms$ | async | json}}-->
 
-<div style="width: 500px; height: 300px;">
-  <img [ngSrc]="imageUrl" alt="Picture" width="500" height="300">
-</div>
+<!--<div style="width: 500px; height: 300px;">-->
+<!--  <img [ngSrc]="imageUrl" alt="Picture" width="500" height="300">-->
+<!--</div>-->
 
-<hr/>
+<!--<hr/>-->
 
-<button [disabled]="isLoading">Loadings...</button>
+<!--<button [disabled]="isLoading">Loadings...</button>-->
 
-<hr/>
+<!--<hr/>-->
 
-Number of Rooms:
-<div [innerText]="numberOfRooms"></div>
+<!--Number of Rooms:-->
+<!--<div [innerText]="numberOfRooms"></div>-->
 <!--document.getElementById("numberOfRooms").innerText = numberOfRooms;-->
 
-<hr/>
+<!--<hr/>-->
 
-<button (click)="toggle()">Toggle</button>
+<!--<button (click)="toggle()">Toggle</button>-->
 
-<hr/>
+<!--<hr/>-->
 
 <div *ngIf="selectRoom">
   {{ selectedRoom | json }}
@@ -43,14 +43,19 @@ Number of Rooms:
   {{getError$ | async}}
 </h1>
 
-<h1>
-  Number of Rooms: {{roomsCount$ | async}}
-</h1>
+<!--<h1>-->
+<!--  Number of Rooms: {{roomsCount$ | async}}-->
+<!--</h1>-->
+
+Price Filter: {{ priceFilter.value | json}}
+<div>
+  <input type="number" class="form-control" placeholder="Price" [formControl]="priceFilter">
+</div>
 
 <div *ngIf="rooms$ | async as rooms">
   <!--  selectRoom is the event name emitted by the child component hinv-rooms-list-->
 <!--  <hinv-rooms-list [rooms]="roomList" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>-->
-  <hinv-rooms-list [rooms]="rooms" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
+  <hinv-rooms-list [rooms]="rooms" [filterPrice]="priceFilter.value || 0" (selectedRoom)="selectRoom($event)"></hinv-rooms-list>
 </div>
 
 <router-outlet></router-outlet>

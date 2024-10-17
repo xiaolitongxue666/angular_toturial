@@ -8,6 +8,7 @@ import {RoomsService} from "./services/rooms.service";
 import {catchError, map, Observable, of, Subject, Subscription} from 'rxjs';
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 import {RouterOutlet} from "@angular/router";
+import {FormControl, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'hinv-rooms',
@@ -20,6 +21,7 @@ import {RouterOutlet} from "@angular/router";
     HeaderComponent,
     AsyncPipe,
     RouterOutlet,
+    ReactiveFormsModule,
   ],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss',
@@ -53,6 +55,8 @@ export class RoomsComponent {
 
   // getError$ : Observable<HttpErrorResponse> | undefined;
   getError$ : Observable<string> | undefined;
+
+  priceFilter = new FormControl(0);
 
   constructor(private roomsService: RoomsService) {
     this.roomList = [];

@@ -11,6 +11,7 @@ import {
 import {DatePipe, NgForOf, NgOptimizedImage} from '@angular/common';
 import {RoomList} from "./rooms-list";
 import {RouterLink} from "@angular/router";
+import {FilterPipe} from "../filter.pipe";
 
 @Component({
   selector: 'hinv-rooms-list',
@@ -19,7 +20,8 @@ import {RouterLink} from "@angular/router";
     NgForOf,
     NgOptimizedImage,
     DatePipe,
-    RouterLink
+    RouterLink,
+    FilterPipe
   ],
   templateUrl: './rooms-list.component.html',
   styleUrl: './rooms-list.component.scss',
@@ -30,6 +32,8 @@ export class RoomsListComponent implements OnInit, OnChanges {
   @Input() rooms: RoomList[] | null = [];
 
   @Output() selectedRoom = new EventEmitter<RoomList>()
+
+  @Input() filterPrice = 0;
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("ngOnChanges called");
